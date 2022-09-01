@@ -1,0 +1,12 @@
+sudo iptables -L -n
+sudo docker ps
+echo "Enter the port u wanna to ban from outside"
+read port
+sudo iptables -I DOCKER -p tcp --dport $port -j DROP
+sudo iptables -I DOCKER -p udp --dport $port -j DROP
+echo "BANNED the port in Global"
+echo "ADD 127.0.0.1 to allow list"
+sudo iptables -I DOCKER -s 127.0.0.1 -p tcp --dport $port -j ACCEPT
+sudo iptables -I DOCKER -s 127.0.0.1 -p udp --dport $port -j ACCEPT
+sudo iptables -L -n
+echo "Success.Port number $port has been successfully banned"
